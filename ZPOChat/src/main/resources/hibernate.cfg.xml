@@ -20,8 +20,9 @@
 		<property name="connection.pool_size">1</property>
 		<property name="current_session_context_class">thread</property>
 
-		<mapping class="com.mastertheboss.domain.Employee" />
-		<mapping class="com.mastertheboss.domain.Department" />
+		<mapping class="pl.us.edu.model.User" />
+		<mapping class="pl.us.edu.model.Log" />
+		<mapping class="pl.us.edu.model.Message" />
 
 	</session-factory>
 </hibernate-configuration>
