@@ -32,6 +32,10 @@ public class User implements Serializable {
 	@Column(name = "password")
 	private String password;
 
+	@SuppressWarnings("unused")
+	private User() {
+	}
+
 	public User(String login, String email, String password) {
 		this.login = login;
 		this.email = email;

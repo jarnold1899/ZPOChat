@@ -32,6 +32,18 @@ public class Log implements Serializable {
 	@JoinColumn(name = "user_id")
 	private User user;
 
+	@Column(name = "ip")
+	private String ip;
+
+	@Column(name = "log_date")
+	private Date logDate;
+
+	@Column(name = "log_type")
+	private LogType logType;
+
+	private Log() {
+	}
+
 	private Log(User user, String ip, Date logDate, LogType logType) {
 		super();
 		this.user = user;
@@ -79,14 +91,5 @@ public class Log implements Serializable {
 	public void setLogType(LogType logType) {
 		this.logType = logType;
 	}
-
-	@Column(name = "ip")
-	private String ip;
-
-	@Column(name = "log_date")
-	private Date logDate;
-
-	@Column(name = "log_type")
-	private LogType logType;
 
 }

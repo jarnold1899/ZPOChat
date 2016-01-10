@@ -36,6 +36,10 @@ public class Message implements Serializable {
 	@Column(name = "message")
 	private String message;
 
+	@SuppressWarnings("unused")
+	private Message() {
+	}
+
 	public Message(User user, Date time, String message) {
 		super();
 		this.user = user;
