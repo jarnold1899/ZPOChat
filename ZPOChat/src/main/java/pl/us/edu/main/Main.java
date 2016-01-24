@@ -2,13 +2,7 @@ package pl.us.edu.main;
 
 import java.awt.EventQueue;
 
-import org.hibernate.annotations.common.util.impl.Log;
-import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
-
-import pl.us.edu.model.Message;
-import pl.us.edu.model.User;
-import pl.us.edu.ui.MainFrame;
+import pl.us.edu.ui.Logowanie;
 
 public class Main {
 
@@ -25,7 +19,7 @@ public class Main {
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new MainFrame();
+				new Logowanie();
 			}
 		});
 	}
