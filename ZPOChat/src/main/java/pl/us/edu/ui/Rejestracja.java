@@ -3,7 +3,6 @@ package pl.us.edu.ui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -11,6 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import pl.us.edu.model.User;
+import pl.us.edu.util.Operation;
 
 public class Rejestracja extends JFrame {
 	private JPasswordField passwordText;
@@ -74,9 +76,9 @@ public class Rejestracja extends JFrame {
 		colorChoserbutton.setBounds(130, 70, 130, 25);
 		add(colorChoserbutton);
 
-		JButton loginButton = new JButton("rejestruj");
-		loginButton.setBounds(10, 110, 120, 25);
-		add(loginButton);
+		JButton rejestrujButton = new JButton("rejestruj");
+		rejestrujButton.setBounds(10, 110, 120, 25);
+		add(rejestrujButton);
 
 		JButton cancelButton = new JButton("anuluj");
 		cancelButton.setBounds(160, 110, 120, 25);
@@ -86,14 +88,15 @@ public class Rejestracja extends JFrame {
 		statusLabel.setBounds(10, 130, 300, 25);
 		add(statusLabel);
 
-		loginButton.addActionListener(new ActionListener() {
+		rejestrujButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Arrays.equals("stackoverflow".toCharArray(), passwordText.getPassword())
-						&& "stackoverflow".equals(userText.getText())) {
-					new MainFrame();
+				if (passwordText.getPassword() != null
+						&& userText.getText() != null) {
+					User user1 = new User(userText.getText(), userText.getText(), String.valueOf(passwordText.getPassword()), color.toString());
+					Operation.saveUser(user1);
 					setVisible(false);
 				} else {
-					statusLabel.setText("Niepoprawna nazwa lub has³o");
+					statusLabel.setText("Podaj logi i has³o");
 				}
 			}
 		});

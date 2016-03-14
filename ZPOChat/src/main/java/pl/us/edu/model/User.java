@@ -31,15 +31,27 @@ public class User implements Serializable {
 
 	@Column(name = "password")
 	private String password;
+	
+	@Column(name = "color")
+	private String color;
 
 	@SuppressWarnings("unused")
 	private User() {
 	}
 
-	public User(String login, String email, String password) {
+	public User(String login, String email, String password, String color) {
 		this.login = login;
 		this.email = email;
 		this.password = password;
+		this.color = color;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	public int getId() {

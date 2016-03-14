@@ -2,13 +2,16 @@ package pl.us.edu.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import pl.us.edu.model.MainModel;
+import pl.us.edu.model.User;
+import pl.us.edu.util.Operation;
 
 public class Logowanie extends JFrame {
 
@@ -22,9 +25,11 @@ public class Logowanie extends JFrame {
 	private JLabel userLabel;
 	private JLabel statusLabel;
 	private Rejestracja rejestracja;
+	private MainModel model;
 
 	public Logowanie() {
 		super("Logowanie");
+		this.model = new MainModel();
 		rejestracja = new Rejestracja(this);
 		rejestracja.setVisible(false);
 		setSize(300, 170);
@@ -64,9 +69,10 @@ public class Logowanie extends JFrame {
 
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Arrays.equals("stackoverflow".toCharArray(), passwordText.getPassword())
-						&& "stackoverflow".equals(userText.getText())) {
-					new MainFrame();
+				User user = Operation.loguj(userText.getText(), passwordText.getPassword());
+				if (user != null) {
+					model.setUser(user);
+					new MainFrame(model);
 					setVisible(false);
 				} else {
 					statusLabel.setText("Niepoprawna nazwa lub has³o");

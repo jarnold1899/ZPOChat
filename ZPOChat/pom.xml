@@ -4,6 +4,7 @@
 	<groupId>pl.edu.us</groupId>
 	<artifactId>ZPOChat</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
 
 	<packaging>jar</packaging>
 	<name>HibernateExample</name>
@@ -14,6 +15,12 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>4.0.1.Final</version>
+			<exclusions>
+		    <exclusion>
+		      <groupId>org.slf4j</groupId>
+		      <artifactId>slf4j-api</artifactId>
+		    </exclusion>
+		  </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -53,12 +60,6 @@
 			<version>3.1.0.CR2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.4</version>
-		</dependency>
-
-		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.10</version>
@@ -87,7 +88,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.5.8</version>
+			<version>1.6.4</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
