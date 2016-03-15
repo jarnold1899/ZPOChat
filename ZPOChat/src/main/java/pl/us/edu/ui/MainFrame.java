@@ -71,7 +71,7 @@ public class MainFrame extends JFrame implements ActionListener {
         chat = new JTextPane();                
 //        chat.setBorder(eb);
 //        chat.setMargin(new Insets(5, 5, 5, 5));
-
+        topPanel.setSize(400,500);
         topPanel.add(new JScrollPane(chat));
 
 		Container p1 = new Container();
@@ -82,12 +82,10 @@ public class MainFrame extends JFrame implements ActionListener {
 		center.add(p1);
 
 		userList = new JTextPane();
-		userList.setText("tasda");
 		userList.setEditable(false);
 		
 		topPanel2 = new JPanel(new BorderLayout());        
 		topPanel2.add(new JScrollPane(userList));
-		appendToPane(userList, "vzfdvvsdfv ", Color.RED);
 
 		JScrollPane scrollUserList = new JScrollPane(topPanel2);
 		
@@ -144,8 +142,8 @@ public class MainFrame extends JFrame implements ActionListener {
 	    int delay = 1000; //milliseconds
 	    ActionListener taskPerformer = new ActionListener() {
 	        public void actionPerformed(ActionEvent evt) {
+	        	loadUser();
 	            loadMsg();
-	            loadUser();
 	        }
 	    };
        new Timer(delay, taskPerformer).start();
@@ -166,13 +164,14 @@ public class MainFrame extends JFrame implements ActionListener {
 
 		List<User> lUser = Operation.listUser();
 		userList.setText("");
-		appendToPane(userList, "vzfdvvsdfv ", Color.RED);
+		StringBuilder sb = new StringBuilder();
 
 		for (User us : lUser) {
-
-			appendToPane(userList, "\n[" + us.getLogin() + "] ", new Color(us.getColor()));
+			sb.append("\n[" + us.getLogin() + "] ");
 		}
-        pack();
+		userList.setText(sb.toString());
+		
+//        pack();
 
 	}
 	
