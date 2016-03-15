@@ -1,6 +1,9 @@
 package pl.us.edu.util;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -9,8 +12,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import pl.us.edu.model.Log;
 import pl.us.edu.model.Message;
 import pl.us.edu.model.User;
+import pl.us.edu.types.LogType;
 
 public class Operation {
 	
@@ -84,41 +89,6 @@ public class Operation {
 	      }
 	      return msg;
 	   }
-//	   /* Method to UPDATE salary for an employee */
-//	   public void updateEmployee(Integer EmployeeID, int salary ){
-//	      Session session = factory.openSession();
-//	      Transaction tx = null;
-//	      try{
-//	         tx = session.beginTransaction();
-//	         Employee employee = 
-//	                    (Employee)session.get(Employee.class, EmployeeID); 
-//	         employee.setSalary( salary );
-//			 session.update(employee); 
-//	         tx.commit();
-//	      }catch (HibernateException e) {
-//	         if (tx!=null) tx.rollback();
-//	         e.printStackTrace(); 
-//	      }finally {
-//	         session.close(); 
-//	      }
-//	   }
-//	   /* Method to DELETE an employee from the records */
-//	   public void deleteEmployee(Integer EmployeeID){
-//	      Session session = factory.openSession();
-//	      Transaction tx = null;
-//	      try{
-//	         tx = session.beginTransaction();
-//	         Employee employee = 
-//	                   (Employee)session.get(Employee.class, EmployeeID); 
-//	         session.delete(employee); 
-//	         tx.commit();
-//	      }catch (HibernateException e) {
-//	         if (tx!=null) tx.rollback();
-//	         e.printStackTrace(); 
-//	      }finally {
-//	         session.close(); 
-//	      }
-//	   }
 
 	public static void post(Message msg) {
 		 try{
@@ -141,4 +111,48 @@ public class Operation {
       }
 	}
 
+	public static void aktUser(User user, int akt) {
+		Session session = factory.openSession();
+	      Transaction tx = null;
+	      try{
+	         tx = session.beginTransaction();
+	         User user1 = 
+	                    (User)session.get(User.class, user.getId()); 
+	         user1.setAkt(akt);
+			 session.update(user1); 
+			 String ip = null;
+			 try {
+				ip = InetAddress.getLocalHost().toString();
+			} catch (UnknownHostException e) {
+				ip = "";
+			}
+			 Log log = new Log(user1,ip,new Date(), LogType.values()[akt]);
+			 session.save(log);
+	         tx.commit();
+	      }catch (HibernateException e) {
+	         if (tx!=null) tx.rollback();
+	         e.printStackTrace(); 
+	      }finally {
+	         session.close(); 
+	      }
+		
+	}
+
+	public static List<User> listUser() {
+		 Session session = factory.openSession();
+	      Transaction tx = null;
+	      List<User> us = null;
+	      try{
+	         tx = session.beginTransaction();
+	         us = session.createQuery("FROM User WHERE akt = 1").list(); 
+	         tx.commit();
+	      }catch (HibernateException e) {
+	         if (tx!=null) tx.rollback();
+	         e.printStackTrace(); 
+	      }finally {
+	         session.close(); 
+	      }
+	      return us;
+	}
+	
 }

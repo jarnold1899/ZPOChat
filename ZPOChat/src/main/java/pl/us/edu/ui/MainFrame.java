@@ -6,6 +6,8 @@ import java.awt.Container;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
@@ -25,6 +27,7 @@ import javax.swing.text.StyleContext;
 
 import pl.us.edu.model.MainModel;
 import pl.us.edu.model.Message;
+import pl.us.edu.model.User;
 import pl.us.edu.util.Operation;
 
 public class MainFrame extends JFrame implements ActionListener {
@@ -37,11 +40,15 @@ public class MainFrame extends JFrame implements ActionListener {
 	private JButton post;
 	JTextPane chat;
 
-	private JTextArea userList, message;
+	JTextPane userList;
+
+	private JTextArea message;
 
 	private MainModel model;
 
 	private JPanel topPanel;
+
+	private JPanel topPanel2;
 
 	public MainFrame(final MainModel model) {
 		
@@ -50,13 +57,14 @@ public class MainFrame extends JFrame implements ActionListener {
 		
 		post = new JButton("<html><center>Wyœlij<br />wiadomoœæ</center></html>");
 		post.addActionListener(this);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
 		JPanel center = new JPanel(new BorderLayout());
 
 		chat = new JTextPane();
 		chat.setEditable(false);
-		topPanel = new JPanel();        
+		topPanel = new JPanel(new BorderLayout());        
 
         EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
 
@@ -64,8 +72,7 @@ public class MainFrame extends JFrame implements ActionListener {
 //        chat.setBorder(eb);
 //        chat.setMargin(new Insets(5, 5, 5, 5));
 
-        topPanel.add(chat);
-        pack();
+        topPanel.add(new JScrollPane(chat));
 
 		Container p1 = new Container();
 		p1.setLayout(new BorderLayout());
@@ -74,12 +81,15 @@ public class MainFrame extends JFrame implements ActionListener {
 
 		center.add(p1);
 
-		userList = new JTextArea(20, 20);
-
+		userList = new JTextPane();
+		userList.setText("tasda");
 		userList.setEditable(false);
-		JScrollPane scrollUserList = new JScrollPane(userList,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		
+		topPanel2 = new JPanel(new BorderLayout());        
+		topPanel2.add(new JScrollPane(userList));
+		appendToPane(userList, "vzfdvvsdfv ", Color.RED);
+
+		JScrollPane scrollUserList = new JScrollPane(topPanel2);
 		
 		Container p2 = new Container();
 		p2.setLayout(new BorderLayout());
@@ -109,6 +119,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		setSize(800, 600);
 
 		setVisible(true);
+		pack();
 		
 		post.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -121,28 +132,47 @@ public class MainFrame extends JFrame implements ActionListener {
 			}
 		});
 		
-		int timerTimeInMilliSeconds = 5000;
-	    javax.swing.Timer timer = new javax.swing.Timer(timerTimeInMilliSeconds, new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            loadMsg();
-	        }
-	    });
+		addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+				Operation.aktUser(model.getUser(),0);
+            }
+        });
 		
+	    int delay = 1000; //milliseconds
+	    ActionListener taskPerformer = new ActionListener() {
+	        public void actionPerformed(ActionEvent evt) {
+	            loadMsg();
+	            loadUser();
+	        }
+	    };
+       new Timer(delay, taskPerformer).start();
 	}
 
 	protected void loadMsg() {
 
 		List<Message> lMsg = Operation.listMessage();
-		StringBuilder sb = new StringBuilder();
 		chat.setText("");
 		for (Message msg : lMsg) {
-//			sb.append("\n[" + msg.getTime() + "] "+ msg.getUser().getLogin() + ": "+ msg.getMessage());
-			appendToPane(chat, "\n[" + msg.getTime() + "] "+ msg.getUser().getLogin() + ": "+ msg.getMessage(), Color.RED);
+			appendToPane(chat, "\n[" + msg.getTime() + "] "+ msg.getUser().getLogin() + ": "+ msg.getMessage(), new Color(msg.getUser().getColor()));
 			
 		}
         pack();
+	}
+	
+	protected void loadUser() {
 
-//		chat.setText(sb.toString());		
+		List<User> lUser = Operation.listUser();
+		userList.setText("");
+		appendToPane(userList, "vzfdvvsdfv ", Color.RED);
+
+		for (User us : lUser) {
+
+			appendToPane(userList, "\n[" + us.getLogin() + "] ", new Color(us.getColor()));
+		}
+        pack();
 
 	}
 	

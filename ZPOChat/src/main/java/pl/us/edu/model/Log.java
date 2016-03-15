@@ -41,10 +41,11 @@ public class Log implements Serializable {
 	@Column(name = "log_type")
 	private LogType logType;
 
-	private Log() {
+	public Log() {
+		super();
 	}
 
-	private Log(User user, String ip, Date logDate, LogType logType) {
+	public Log(User user, String ip, Date logDate, LogType logType) {
 		super();
 		this.user = user;
 		this.ip = ip;

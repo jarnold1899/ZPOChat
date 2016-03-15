@@ -92,7 +92,7 @@ public class Rejestracja extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (passwordText.getPassword() != null
 						&& userText.getText() != null) {
-					User user1 = new User(userText.getText(), userText.getText(), String.valueOf(passwordText.getPassword()), color.toString());
+					User user1 = new User(userText.getText(), userText.getText(), String.valueOf(passwordText.getPassword()), color.getRGB());
 					Operation.saveUser(user1);
 					setVisible(false);
 				} else {

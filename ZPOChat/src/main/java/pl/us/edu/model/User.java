@@ -33,24 +33,28 @@ public class User implements Serializable {
 	private String password;
 	
 	@Column(name = "color")
-	private String color;
+	private int color;
+	
+	@Column(name = "akt")
+	private int akt;
 
 	@SuppressWarnings("unused")
 	private User() {
 	}
 
-	public User(String login, String email, String password, String color) {
+	public User(String login, String email, String password, int i) {
 		this.login = login;
 		this.email = email;
 		this.password = password;
-		this.color = color;
+		this.color = i;
+		this.akt = 0;
 	}
 
-	public String getColor() {
+	public int getColor() {
 		return color;
 	}
 
-	public void setColor(String color) {
+	public void setColor(int color) {
 		this.color = color;
 	}
 
@@ -80,6 +84,14 @@ public class User implements Serializable {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public int getAkt() {
+		return akt;
+	}
+
+	public void setAkt(int akt) {
+		this.akt = akt;
 	}
 
 	public void setPassword(String password) {

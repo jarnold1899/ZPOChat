@@ -74,6 +74,7 @@ public class Logowanie extends JFrame {
 					model.setUser(user);
 					new MainFrame(model);
 					setVisible(false);
+					Operation.aktUser(user,1);
 				} else {
 					statusLabel.setText("Niepoprawna nazwa lub has³o");
 				}
